@@ -1,7 +1,9 @@
 package com.example.bibliotecaapirest.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 import java.util.LinkedHashSet;
@@ -13,16 +15,21 @@ public class Libro {
     @Id
     @Size(max = 20)
     @Column(name = "isbn", nullable = false, length = 20)
+    @Pattern(regexp =  "\\d{3}-\\d{1,5}-\\d{1,7}-\\d{1,7}-\\d{1}" , message = "El ISBN debe seguir el formato adecuado")
     private String isbn;
 
     @Size(max = 200)
     @NotNull
     @Column(name = "titulo", nullable = false, length = 200)
+    @NotBlank(message = "El titulo no puede estar vacio")
+    @Pattern(regexp = "[A-Za-z0-9 ]{1,200}", message = "El título solo puede contener caracteres alfanuméricos")
     private String titulo;
 
     @Size(max = 100)
     @NotNull
     @Column(name = "autor", nullable = false, length = 100)
+    @NotBlank(message = "El autor no puede estar vacio")
+    @Pattern(regexp = "[A-Za-z0-9 ]{1,100}", message = "El autor solo puede contener caracteres alfanuméricos")
     private String autor;
 
     @OneToMany(mappedBy = "isbn")

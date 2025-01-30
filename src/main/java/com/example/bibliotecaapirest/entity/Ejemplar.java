@@ -1,7 +1,9 @@
 package com.example.bibliotecaapirest.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -26,6 +28,8 @@ public class Ejemplar {
     @ColumnDefault("'Disponible'")
     @Lob
     @Column(name = "estado")
+    @NotBlank(message = "El estado no puede estar vacío")
+    @Pattern(regexp = "(disponible|prestado|dañado)", message = "El estado solo puede ser 'disponible', 'prestado' o 'dañado'")
     private String estado;
 
     @OneToMany(mappedBy = "ejemplar")

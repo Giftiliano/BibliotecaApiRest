@@ -1,7 +1,9 @@
 package com.example.bibliotecaapirest.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
@@ -19,26 +21,35 @@ public class Usuario {
     @Size(max = 15)
     @NotNull
     @Column(name = "dni", nullable = false, length = 15)
+    @NotBlank(message = "El DNI no puede estar vacío")
+    @Pattern(regexp = "\\d{8}[A-Za-z]", message = "El DNI no tiene un formato valido")
     private String dni;
 
     @Size(max = 100)
     @NotNull
     @Column(name = "nombre", nullable = false, length = 100)
+    @NotBlank(message = "El nombre no puede estar vacío")
+    @Pattern(regexp = "[A-Za-z0-9 ]{1,100}", message = "El nombre solo puede contener caracteres alfanuméricos")
     private String nombre;
 
     @Size(max = 100)
     @NotNull
     @Column(name = "email", nullable = false, length = 100)
+    @NotBlank(message = "El email no puede estar vacio")
+    @Pattern(regexp = "[A-Za-z0-9 ]{1,100} + @gmail.com", message = "El email solo puede acabar en gmail.com ")
     private String email;
 
-    @Size(max = 255)
+    @Size(min = 4 , max =12 , message = "La contraseña tiene que tener entre 4 y 12 caracteres")
     @NotNull
     @Column(name = "password", nullable = false)
+    @NotBlank(message = "La contraseña no puede estar vacía")
     private String password;
 
     @NotNull
     @Lob
     @Column(name = "tipo", nullable = false)
+    @NotBlank(message = "El tipo de usuario no puede estar vacía")
+    @Pattern(regexp = "(normal|administrador)", message = "El tipo solo puede ser 'normal' o 'administrador'")
     private String tipo;
 
     @Column(name = "penalizacion_hasta")
